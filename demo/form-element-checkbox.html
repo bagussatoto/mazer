@@ -20,6 +20,7 @@
   </head>
 
   <body>
+    <script src="assets/js/initTheme.js"></script>
     <div id="app">
       <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
@@ -67,6 +68,7 @@
                     class="form-check-input me-0"
                     type="checkbox"
                     id="toggle-dark"
+                    style="cursor: pointer"
                   />
                   <label class="form-check-label"></label>
                 </div>
@@ -111,6 +113,9 @@
                   <span>Components</span>
                 </a>
                 <ul class="submenu">
+                  <li class="submenu-item">
+                    <a href="component-accordion.html">Accordion</a>
+                  </li>
                   <li class="submenu-item">
                     <a href="component-alert.html">Alert</a>
                   </li>
@@ -490,7 +495,7 @@
               <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Checkbox</h3>
                 <p class="text-subtitle text-muted">
-                  For users to check their lists
+                  For users to check their lists.
                 </p>
               </div>
               <div class="col-12 col-md-6 order-md-2 order-first">
@@ -744,11 +749,11 @@
                                 class="form-check-input form-check-primary form-check-glow"
                                 checked
                                 name="customCheck"
-                                id="customColorCheck1"
+                                id="checkboxGlow1"
                               />
                               <label
                                 class="form-check-label"
-                                for="customColorCheck1"
+                                for="checkboxGlow1"
                                 >Primary</label
                               >
                             </div>
@@ -762,11 +767,11 @@
                                 class="form-check-input form-check-secondary form-check-glow"
                                 checked
                                 name="customCheck"
-                                id="customColorCheck2"
+                                id="checkboxGlow2"
                               />
                               <label
                                 class="form-check-label"
-                                for="customColorCheck2"
+                                for="checkboxGlow2"
                                 >Secondary</label
                               >
                             </div>
@@ -780,11 +785,11 @@
                                 class="form-check-input form-check-success form-check-glow"
                                 checked
                                 name="customCheck"
-                                id="customColorCheck3"
+                                id="checkboxGlow3"
                               />
                               <label
                                 class="form-check-label"
-                                for="customColorCheck3"
+                                for="checkboxGlow3"
                                 >Success</label
                               >
                             </div>
@@ -798,11 +803,11 @@
                                 class="form-check-input form-check-danger form-check-glow"
                                 checked
                                 name="customCheck"
-                                id="customColorCheck4"
+                                id="checkboxGlow4"
                               />
                               <label
                                 class="form-check-label"
-                                for="customColorCheck4"
+                                for="checkboxGlow4"
                                 >Danger</label
                               >
                             </div>
@@ -816,11 +821,11 @@
                                 class="form-check-input form-check-info form-check-glow"
                                 checked
                                 name="customCheck"
-                                id="customColorCheck5"
+                                id="checkboxGlow5"
                               />
                               <label
                                 class="form-check-label"
-                                for="customColorCheck5"
+                                for="checkboxGlow5"
                                 >Info</label
                               >
                             </div>
@@ -834,11 +839,11 @@
                                 class="form-check-input form-check-warning form-check-glow"
                                 checked
                                 name="customCheck"
-                                id="customColorCheck6"
+                                id="checkboxGlow6"
                               />
                               <label
                                 class="form-check-label"
-                                for="customColorCheck6"
+                                for="checkboxGlow6"
                                 >Warning</label
                               >
                             </div>
@@ -877,11 +882,11 @@
                                 class="form-check-input form-check-primary form-check-glow"
                                 checked
                                 name="customCheck"
-                                id="customColorCheck6"
+                                id="checkboxSize1"
                               />
                               <label
                                 class="form-check-label"
-                                for="customColorCheck6"
+                                for="checkboxSize1"
                                 >Small</label
                               >
                             </div>
@@ -894,11 +899,9 @@
                               class="form-check-input form-check-primary form-check-glow"
                               checked
                               name="customCheck"
-                              id="customColorCheck6"
+                              id="checkboxSize2"
                             />
-                            <label
-                              class="form-check-label"
-                              for="customColorCheck6"
+                            <label class="form-check-label" for="checkboxSize2"
                               >Default</label
                             >
                           </div>

@@ -20,6 +20,7 @@
   </head>
 
   <body>
+    <script src="assets/js/initTheme.js"></script>
     <div id="app">
       <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
@@ -67,6 +68,7 @@
                     class="form-check-input me-0"
                     type="checkbox"
                     id="toggle-dark"
+                    style="cursor: pointer"
                   />
                   <label class="form-check-label"></label>
                 </div>
@@ -111,6 +113,9 @@
                   <span>Components</span>
                 </a>
                 <ul class="submenu">
+                  <li class="submenu-item">
+                    <a href="component-accordion.html">Accordion</a>
+                  </li>
                   <li class="submenu-item">
                     <a href="component-alert.html">Alert</a>
                   </li>
@@ -489,7 +494,10 @@
             <div class="row">
               <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Form Validation</h3>
-                <p class="text-subtitle text-muted">...</p>
+                <p class="text-subtitle text-muted">
+                  Complete the form with powerful validation library such as
+                  Parsley.
+                </p>
               </div>
               <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav
@@ -550,6 +558,7 @@
                                 class="form-control"
                                 placeholder="Last Name"
                                 name="lname-column"
+                                data-parsley-required="true"
                               />
                             </div>
                           </div>
@@ -565,6 +574,7 @@
                                 placeholder="Custom validation. Value has to be Jakarta."
                                 name="city-column"
                                 data-parsley-restricted-city="Jakarta"
+                                data-parsley-required="true"
                               />
                             </div>
                           </div>
@@ -579,6 +589,7 @@
                                 class="form-control"
                                 name="country-floating"
                                 placeholder="Country"
+                                data-parsley-required="true"
                               />
                             </div>
                           </div>
@@ -593,6 +604,7 @@
                                 class="form-control"
                                 name="company-column"
                                 placeholder="Company"
+                                data-parsley-required="true"
                               />
                             </div>
                           </div>

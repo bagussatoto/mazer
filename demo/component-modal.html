@@ -20,6 +20,7 @@
   </head>
 
   <body>
+    <script src="assets/js/initTheme.js"></script>
     <div id="app">
       <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
@@ -67,6 +68,7 @@
                     class="form-check-input me-0"
                     type="checkbox"
                     id="toggle-dark"
+                    style="cursor: pointer"
                   />
                   <label class="form-check-label"></label>
                 </div>
@@ -111,6 +113,9 @@
                   <span>Components</span>
                 </a>
                 <ul class="submenu active">
+                  <li class="submenu-item">
+                    <a href="component-accordion.html">Accordion</a>
+                  </li>
                   <li class="submenu-item">
                     <a href="component-alert.html">Alert</a>
                   </li>
@@ -492,7 +497,7 @@
                 <p class="text-subtitle text-muted">
                   Use Bootstrap’s JavaScript modal plugin to add dialogs to your
                   site for lightboxes, user notifications, or completely custom
-                  content
+                  content.
                 </p>
               </div>
               <div class="col-12 col-md-6 order-md-2 order-first">
