@@ -1195,10 +1195,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/nunito/-/nunito-4.5.11.tgz#0992075ddc3f3ed8e3e83bf5944b1b0efd4c24dd"
   integrity sha512-j2WIvzsI+6wjbJ/gQjyHJL/SYZxyg1qomvRswMZAWj2lvv+eX4kzJOSbr9YhZLYywoMspYb0643EO4cHRy6zpQ==
 
-"@fortawesome/fontawesome-free@^5.15.4":
-  version "5.15.4"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
-  integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
+"@fortawesome/fontawesome-free@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-6.3.0.tgz#b5877182692a6f7a39d1108837bec24247ba4bd7"
+  integrity sha512-qVtd5i1Cc7cdrqnTWqTObKQHjPWAiRwjUPaXObaeNPcy7+WKxJumGBx66rfSFgK6LNpIasVKkEgW8oyf0tmPLA==
 
 "@iarna/toml@2.2.5":
   version "2.2.5"
@@ -5571,6 +5571,11 @@ jsonfile@^6.0.1:
     universalify "^2.0.0"
   optionalDependencies:
     graceful-fs "^4.1.6"
+
+jsvectormap@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/jsvectormap/-/jsvectormap-1.5.1.tgz#1f4afc0136e33d40c5426259ebabe4b589463419"
+  integrity sha512-Ic2O8df/gPir2tJI+tcfWuzXNE6lI4GjBiRstBEDJx7yWIqzuJn8t3+1+/M3Ug8BCxBHhRMVPeMGLFh04al93w==
 
 junk@^3.1.0:
   version "3.1.0"
