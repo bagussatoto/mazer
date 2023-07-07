@@ -10,8 +10,7 @@ import {Color} from './color.js';
 import Element from '../core/core.element.js';
 import {ChartArea, Padding, Point} from './geometric.js';
 import {LayoutItem, LayoutPosition} from './layout.js';
-import {RenderTextOpts} from './helpers/helpers.canvas.js';
-import {CanvasFontSpec} from '../helpers/helpers.options.js';
+import {ColorsPluginOptions} from '../plugins/plugin.colors.js';
 
 export {EasingFunction} from '../helpers/helpers.easing.js';
 export {default as ArcElement, ArcProps} from '../elements/element.arc.js';
@@ -260,7 +259,7 @@ export interface DoughnutControllerDatasetOptions
   /**
    * Arc offset (in pixels).
    */
-  offset: number;
+  offset: number | number[];
 
   /**
    * Starting angle to draw this dataset from.
@@ -313,7 +312,7 @@ export interface DoughnutControllerChartOptions {
   /**
    * Arc offset (in pixels).
    */
-  offset: number;
+  offset: number | number[];
 
   /**
    * The outer radius of the chart. String ending with '%' means percentage of maximum radius, number means pixels.
@@ -491,7 +490,7 @@ export declare class Chart<
   readonly id: string;
   readonly canvas: HTMLCanvasElement;
   readonly ctx: CanvasRenderingContext2D;
-  readonly config: ChartConfigurationInstance;
+  readonly config: ChartConfiguration<TType, TData, TLabel> | ChartConfigurationCustomTypesPerDataset<TType, TData, TLabel>;
   readonly width: number;
   readonly height: number;
   readonly aspectRatio: number;
@@ -501,11 +500,11 @@ export declare class Chart<
   readonly scales: { [key: string]: Scale };
   readonly attached: boolean;
 
-  readonly legend?: LegendElement; // Only available if legend plugin is registered and enabled
-  readonly tooltip?: TooltipModel; // Only available if tooltip plugin is registered and enabled
+  readonly legend?: LegendElement<TType>; // Only available if legend plugin is registered and enabled
+  readonly tooltip?: TooltipModel<TType>; // Only available if tooltip plugin is registered and enabled
 
-  data: ChartData;
-  options: ChartOptions;
+  data: ChartData<TType, TData, TLabel>;
+  options: ChartOptions<TType>;
 
   constructor(item: ChartItem, config: ChartConfiguration<TType, TData, TLabel> | ChartConfigurationCustomTypesPerDataset<TType, TData, TLabel>);
 
@@ -547,6 +546,8 @@ export declare class Chart<
 
   isPluginEnabled(pluginId: string): boolean;
 
+  getContext(): { chart: Chart, type: string };
+
   static readonly defaults: Defaults;
   static readonly overrides: Overrides;
   static readonly version: string;
@@ -566,13 +567,13 @@ export declare type ChartItem =
   | { canvas: HTMLCanvasElement }
   | ArrayLike<CanvasRenderingContext2D | HTMLCanvasElement>;
 
-export declare const enum UpdateModeEnum {
+export declare enum UpdateModeEnum {
   resize = 'resize',
   reset = 'reset',
   none = 'none',
   hide = 'hide',
   show = 'show',
-  normal = 'normal',
+  default = 'default',
   active = 'active'
 }
 
@@ -1358,6 +1359,102 @@ export interface ScriptableScalePointLabelContext {
   type: string;
 }
 
+export interface RenderTextOpts {
+  /**
+   * The fill color of the text. If unset, the existing
+   * fillStyle property of the canvas is unchanged.
+   */
+  color?: Color;
+
+  /**
+   * The width of the strikethrough / underline
+   * @default 2
+   */
+  decorationWidth?: number;
+
+  /**
+   * The max width of the text in pixels
+   */
+  maxWidth?: number;
+
+  /**
+   * A rotation to be applied to the canvas
+   * This is applied after the translation is applied
+   */
+  rotation?: number;
+
+  /**
+   * Apply a strikethrough effect to the text
+   */
+  strikethrough?: boolean;
+
+  /**
+   * The color of the text stroke. If unset, the existing
+   * strokeStyle property of the context is unchanged
+   */
+  strokeColor?: Color;
+
+  /**
+   * The text stroke width. If unset, the existing
+   * lineWidth property of the context is unchanged
+   */
+  strokeWidth?: number;
+
+  /**
+   * The text alignment to use. If unset, the existing
+   * textAlign property of the context is unchanged
+   */
+  textAlign?: CanvasTextAlign;
+
+  /**
+   * The text baseline to use. If unset, the existing
+   * textBaseline property of the context is unchanged
+   */
+  textBaseline?: CanvasTextBaseline;
+
+  /**
+   * If specified, a translation to apply to the context
+   */
+  translation?: [number, number];
+
+  /**
+   * Underline the text
+   */
+  underline?: boolean;
+
+  /**
+   * Dimensions for drawing the label backdrop
+   */
+  backdrop?: BackdropOptions;
+}
+
+export interface BackdropOptions {
+  /**
+   * Left position of backdrop as pixel
+   */
+  left: number;
+
+  /**
+   * Top position of backdrop as pixel
+   */
+  top: number;
+
+  /**
+   * Width of backdrop in pixels
+   */
+  width: number;
+
+  /**
+   * Height of backdrop in pixels
+   */
+  height: number;
+
+  /**
+   * Color of label backdrops.
+   */
+  color: Scriptable<Color, ScriptableScaleContext>;
+}
+
 export interface LabelItem {
   label: string | string[];
   font: CanvasFontSpec;
@@ -1657,6 +1754,10 @@ export interface FontSpec {
   lineHeight: number | string;
 }
 
+export interface CanvasFontSpec extends FontSpec {
+  string: string;
+}
+
 export type TextAlign = 'left' | 'center' | 'right';
 export type Align = 'start' | 'center' | 'end';
 
@@ -1699,7 +1800,16 @@ export interface ArcOptions extends CommonElementOptions {
    * Arc stroke alignment.
    */
   borderAlign: 'center' | 'inner';
-
+  /**
+   * Line dash. See MDN.
+   * @default []
+   */
+  borderDash: number[];
+  /**
+   * Line dash offset. See MDN.
+   * @default 0.0
+   */
+  borderDashOffset: number;
   /**
    * Line join style. See MDN. Default is 'round' when `borderAlign` is 'inner', else 'bevel'.
    */
@@ -1729,6 +1839,8 @@ export interface ArcOptions extends CommonElementOptions {
 }
 
 export interface ArcHoverOptions extends CommonHoverOptions {
+  hoverBorderDash: number[];
+  hoverBorderDashOffset: number;
   hoverOffset: number;
 }
 
@@ -2196,7 +2308,7 @@ export interface LegendItem {
   textAlign?: TextAlign;
 }
 
-export interface LegendElement<TType extends ChartType = ChartType> extends Element<AnyObject, LegendOptions<TType>>, LayoutItem {
+export interface LegendElement<TType extends ChartType> extends Element<AnyObject, LegendOptions<TType>>, LayoutItem {
   chart: Chart<TType>;
   ctx: CanvasRenderingContext2D;
   legendItems?: LegendItem[];
@@ -2430,7 +2542,7 @@ export interface TooltipLabelStyle {
    */
   borderRadius?: number | BorderRadius;
 }
-export interface TooltipModel<TType extends ChartType = ChartType> extends Element<AnyObject, TooltipOptions<TType>> {
+export interface TooltipModel<TType extends ChartType> extends Element<AnyObject, TooltipOptions<TType>> {
   readonly chart: Chart<TType>;
 
   // The items that we are rendering in the tooltip. See Tooltip Item Interface section
@@ -2791,6 +2903,7 @@ export interface TooltipItem<TType extends ChartType> {
 }
 
 export interface PluginOptionsByType<TType extends ChartType> {
+  colors: ColorsPluginOptions;
   decimation: DecimationOptions;
   filler: FillerOptions;
   legend: LegendOptions<TType>;
@@ -2817,6 +2930,7 @@ export interface BorderOptions {
   dashOffset: Scriptable<number, ScriptableScaleContext>;
   color: Color;
   width: number;
+  z: number;
 }
 
 export interface GridLineOptions {
@@ -3269,6 +3383,7 @@ export type TimeScaleOptions = Omit<CartesianScaleOptions, 'min' | 'max'> & {
 };
 
 export interface TimeScale<O extends TimeScaleOptions = TimeScaleOptions> extends Scale<O> {
+  format(value: number, format?: string): string;
   getDataTimestamps(): number[];
   getLabelTimestamps(): string[];
   normalize(values: number[]): number[];
@@ -3314,6 +3429,8 @@ export type RadialTickOptions = TickOptions & {
 }
 
 export type RadialLinearScaleOptions = CoreScaleOptions & {
+  backgroundColor: Color;
+
   animate: boolean;
 
   startAngle: number;
@@ -3383,10 +3500,10 @@ export type RadialLinearScaleOptions = CoreScaleOptions & {
     borderRadius: Scriptable<number | BorderRadius, ScriptableScalePointLabelContext>;
 
     /**
-     * if true, point labels are shown.
+     * if true, point labels are shown. When `display: 'auto'`, the label is hidden if it overlaps with another label.
      * @default true
      */
-    display: boolean;
+    display: boolean | 'auto';
     /**
      * Color of label
      * @see Defaults.color
@@ -3638,6 +3755,8 @@ export interface ChartData<
   TLabel = unknown
 > {
   labels?: TLabel[];
+  xLabels?: TLabel[];
+  yLabels?: TLabel[];
   datasets: ChartDataset<TType, TData>[];
 }
 
@@ -3647,6 +3766,8 @@ export interface ChartDataCustomTypesPerDataset<
   TLabel = unknown
 > {
   labels?: TLabel[];
+  xLabels?: TLabel[];
+  yLabels?: TLabel[];
   datasets: ChartDatasetCustomTypesPerDataset<TType, TData>[];
 }
 
@@ -3670,5 +3791,3 @@ export interface ChartConfigurationCustomTypesPerDataset<
   options?: ChartOptions<TType>;
   plugins?: Plugin<TType>[];
 }
-
-export type ChartConfigurationInstance = ChartConfiguration | ChartConfigurationCustomTypesPerDataset & { type?: undefined }
